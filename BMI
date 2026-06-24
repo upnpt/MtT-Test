@@ -1,0 +1,26 @@
+# รับค่าน้ำหนัก (กิโลกรัม)
+weight = float(input("กรอกน้ำหนัก (kg): "))
+
+# รับค่าส่วนสูง (เซนติเมตร)
+height_cm = float(input("กรอกส่วนสูง (cm): "))
+
+# แปลงส่วนสูงเป็นเมตร
+height_m = height_cm / 100
+
+# คำนวณ BMI
+bmi = weight / (height_m ** 2)
+
+# แสดงผล
+print(f"\nBMI ของคุณคือ: {bmi:.2f}")
+
+# แปลผล
+if bmi < 18.5:
+    print("น้ำหนักน้อย")
+elif bmi < 23:
+    print("น้ำหนักปกติ")
+elif bmi < 25:
+    print("น้ำหนักเกิน")
+elif bmi < 30:
+    print("โรคอ้วนระดับ 1")
+else:
+    print("โรคอ้วนระดับ 2")
