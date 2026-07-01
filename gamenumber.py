@@ -1,25 +1,67 @@
+import tkinter as tk
+from tkinter import messagebox
 import random
-
-print("=" * 40)
-print("🎮 เกมทายตัวเลข (Guess the Number)")
-print("=" * 40)
 
 # สุ่มเลข 1-100
 secret_number = random.randint(1, 100)
-
 attempts = 0
 
-while True:
-    guess = int(input("ทายตัวเลข (1-100): "))
+def check_guess():
+    global attempts, secret_number
+
+    guess = entry.get()
+
+    if not guess.isdigit():
+        messagebox.showwarning("ผิดพลาด", "กรุณาใส่ตัวเลข")
+        return
+
+    guess = int(guess)
     attempts += 1
 
     if guess < secret_number:
-        print("🔼 น้อยเกินไป")
+        result.config(text="📉 น้อยเกินไป", fg="blue")
     elif guess > secret_number:
-        print("🔽 มากเกินไป")
+        result.config(text="📈 มากเกินไป", fg="orange")
     else:
-        print(f"\n🎉 ถูกต้อง!")
-        print(f"คุณใช้ทั้งหมด {attempts} ครั้ง")
-        break
+        messagebox.showinfo(
+            "ยินดีด้วย!",
+            f"คุณทายถูก!\nใช้ไป {attempts} ครั้ง"
+        )
+        secret_number = random.randint(1, 100)
+        attempts = 0
+        result.config(text="เริ่มเกมใหม่แล้ว!", fg="green")
 
-print("\nขอบคุณที่เล่นเกม 😊")
+    entry.delete(0, tk.END)
+
+
+# สร้างหน้าต่าง
+root = tk.Tk()
+root.title("เกมทายตัวเลข")
+root.geometry("350x250")
+root.resizable(False, False)
+
+title = tk.Label(
+    root,
+    text="🎮 เกมทายตัวเลข",
+    font=("Arial", 18, "bold")
+)
+title.pack(pady=10)
+
+label = tk.Label(root, text="ทายเลขระหว่าง 1 - 100")
+label.pack()
+
+entry = tk.Entry(root, font=("Arial", 14), justify="center")
+entry.pack(pady=10)
+
+btn = tk.Button(
+    root,
+    text="ทาย",
+    font=("Arial", 12),
+    command=check_guess
+)
+btn.pack()
+
+result = tk.Label(root, text="", font=("Arial", 12))
+result.pack(pady=20)
+
+root.mainloop()
